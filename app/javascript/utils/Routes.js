@@ -20,4 +20,8 @@ export function users_path() {
 
 export function login_path() {
   return "/session"
-}   
+}
+
+export function login_new_path(){
+  return '/session/new'
+}

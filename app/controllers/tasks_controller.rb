@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   before_action :ensure_user_logged_in
-  before_action :load_task, only: [:show, :edit, :update]
+  before_action :load_task, only: [:show, :edit, :update, :destroy]
 
   def index
     @tasks = Task.all
@@ -11,6 +11,8 @@ class TasksController < ApplicationController
   end
 
   def create
+    @user = User.find(task_params[:user_id])
+    @task = @user.tasks.new(task_params)
     @task = Task.new(task_params)
     if @task.save
       render status: :ok, json: { notice: 'Task was successfully created', id: @task.id }
@@ -18,6 +20,7 @@ class TasksController < ApplicationController
       errors = @task.errors.full_messages
       render status: :unprocessable_entity, json: { errors: errors  }
     end
+    @task.creator_id = @current_user.id
   end
 
   def show
