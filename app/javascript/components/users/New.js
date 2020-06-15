@@ -47,7 +47,7 @@ class New extends React.Component {
         this.setState({ message: response.messages });
       },
       successCallBack: () => {
-        window.location.href = Routes.tasks_path();
+        window.location.href = Routes.login_new_path();
       }
     });
   };
