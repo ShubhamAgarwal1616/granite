@@ -1,9 +1,10 @@
 class TasksController < ApplicationController
   before_action :ensure_user_logged_in
-  before_action :load_task, only: [:show, :edit, :update, :destroy]
+#   before_action :load_task, only: [:show, :edit, :update, :destroy]
 
   def index
-    @tasks = Task.all
+#     @tasks = Task.all
+    @tasks = policy_scope(Task)
   end
 
   def new
@@ -13,25 +14,30 @@ class TasksController < ApplicationController
   def create
     @user = User.find(task_params[:user_id])
     @task = @user.tasks.new(task_params)
-    @task = Task.new(task_params)
-    if @task.save
+    authorize @task
+    @task.creator_id = current_user.id
+    if @task.valid?
+      @task.save
       render status: :ok, json: { notice: 'Task was successfully created', id: @task.id }
     else
       errors = @task.errors.full_messages
       render status: :unprocessable_entity, json: { errors: errors  }
     end
-    @task.creator_id = @current_user.id
   end
 
   def show
-    render
+    @task = Task.find(params[:id])
+    authorize @task
   end
 
   def edit
-    render
+    @task = Task.find(params[:id])
+    authorize @task
   end
 
   def update
+    @task = Task.find(params[:id])
+    authorize @task
     if @task.update(task_params)
       render status: :ok, json: { notice: "Successfully updated task." }
     else
@@ -40,6 +46,8 @@ class TasksController < ApplicationController
   end
 
   def destroy
+    @task = Task.find(params[:id])
+    authorize @task
     if @task.destroy
       render status: :ok, json: { notice: "Successfully deleted task." }
     else
@@ -53,9 +61,9 @@ class TasksController < ApplicationController
     params.require(:task).permit(:description, :user_id)
   end
 
-  def load_task
-    @task = Task.find(params[:id])
-    rescue ActiveRecord::RecordNotFound => errors
-      render json: {errors: errors}
-  end
+#   def load_task
+#     @task = Task.find(params[:id])
+#     rescue ActiveRecord::RecordNotFound => errors
+#       render json: {errors: errors}
+#   end
 end
