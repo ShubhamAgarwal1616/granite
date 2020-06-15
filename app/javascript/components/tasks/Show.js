@@ -82,10 +82,10 @@ class Show extends Component {
             </div>
           </div>
           <div  className="row">
-                      <div  className="mt-4 pt-4 border-top">
-                        <Form  task={task} />
-                      </div>
-                    </div>
+            <div  className="mt-4 pt-4 border-top">
+              <Form  task={task} />
+            </div>
+          </div>
         </div>
       </React.Fragment>
     );
