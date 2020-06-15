@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { fetchApi } from '../../../utils/API';
-import Routes from '../../../js-routes.js.erb';
+import * as Routes from "../../../utils/Routes";
 
 class Form extends Component {
   constructor(props) {

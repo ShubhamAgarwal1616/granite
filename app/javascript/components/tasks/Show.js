@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-
-import * as Routes from '../../utils/Routes';
+import * as Routes from "../../utils/Routes";
 import { fetchApi } from '../../utils/API';
-import Errors from '../shared/Errors';
+import Form from "./comment/Form"
 
 class Show extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
-      errors: null,
-    };
+      errors: null
+    }
     this.handleError = this.handleError.bind(this);
   }
 
@@ -17,8 +17,8 @@ class Show extends Component {
     this.setState({
       errors: {
         errors: response.messages,
-        type: response.type,
-      },
+        type: response.type
+      }
     });
   }
 
@@ -34,50 +34,58 @@ class Show extends Component {
         },
         successCallBack: () => {
           window.location.replace(Routes.tasks_path());
-        },
+        }
       });
     }
   };
 
-  displayErrors() {
-    const { errors } = this.state;
-
-    return (
-      <div className="row">
-        {errors && (
-          <div className="mt-4">
-            <Errors errors={errors.errors} message={errors.type} />
-          </div>
-        )}
-      </div>
-    )
-  }
-
   render() {
-    const { task } = this.props;
+    const { task, comments } = this.props;
     return (
       <React.Fragment>
         <div className="container">
           <h2 className="py-3">You just created a new task!</h2>
-          {this.displayErrors()}
+           <div className="row">
+            {this.state.errors && (
+              <div className="mt-4">
+                <Errors errors={errors.errors} message={errors.type} />
+              </div>
+            )}
+          </div>
           <div className="row">
-            <div className="col-md-10 font-weight-bold">
-              <h5>
-                {task.id}. {task.description}
-                <a
-                  className="ml-2 btn btn-sm btn-warning"
-                  href={Routes.edit_task_path(task.id)}>
-                  Edit
-                </a>
-                <a
-                  className="ml-2 btn btn-sm btn-danger"
-                  onClick={() => this.handleDelete(task.id)}
-                >
-                  Delete
-                </a>
-              </h5>
+            <div className="col-md-10">
+              {task.id}.{task.description}
+              <a
+                className="ml-2 btn btn-sm btn-warning"
+                href={Routes.edit_task_path(task.id)}
+              >
+                Edit
+              </a>
+              <a
+                className="ml-2 btn btn-sm btn-danger"
+                onClick={() => this.handleDelete(task.id)}
+              >
+                Delete
+              </a>
             </div>
           </div>
+          <div className="row">
+            <div className="mt-4 pt-4 border-top">
+              <h3 className="mb-3">Comments</h3>
+              {comments.map(comment => {
+                return (
+                  <div className="py-2" key={comment.id}>
+                    <p className="font-weight-bold">{comment.content}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div  className="row">
+                      <div  className="mt-4 pt-4 border-top">
+                        <Form  task={task} />
+                      </div>
+                    </div>
         </div>
       </React.Fragment>
     );
