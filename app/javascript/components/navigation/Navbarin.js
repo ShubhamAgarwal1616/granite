@@ -20,7 +20,7 @@ class Navbarin extends React.Component {
             Login
           </a>
         </nav>
-      </div >
+      </div>
     );
   }
 }

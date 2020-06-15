@@ -25,3 +25,7 @@ export function login_path() {
 export function login_new_path(){
   return '/session/new'
 }
+
+export function logout_path(){
+  return '/logout'
+}
