@@ -29,3 +29,7 @@ export function login_new_path(){
 export function logout_path(){
   return '/logout'
 }
+
+export function new_user_path(){
+  return '/users/new'
+}

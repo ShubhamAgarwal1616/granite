@@ -16,8 +16,8 @@ class Navbarin extends React.Component {
           </a>
           <a
             className="navbar-brand"
-            href={Routes.login_new_path()}
-            Login
+            href={Routes.new_user_path()}>
+            SignUp
           </a>
         </nav>
       </div>
